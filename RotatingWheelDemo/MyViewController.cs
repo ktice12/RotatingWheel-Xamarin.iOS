@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using System.Drawing;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using UIKit;
 
 namespace RotatingWheelDemo
 {
@@ -10,7 +10,7 @@ namespace RotatingWheelDemo
         {
             base.ViewDidLoad();
 
-            var rotatingWheel = new RotatingWheelView(new RectangleF(0, 0, 200, 200), new RotatingWheelSettings()
+            var rotatingWheel = new RotatingWheelView(new CGRect(0, 0, 800, 800), new RotatingWheelSettings()
                 {
                     BackgroundImage = UIImage.FromBundle("images/bg.png"),
                     CenterButtonImage = UIImage.FromBundle("images/centerButton.png"),
@@ -58,7 +58,7 @@ namespace RotatingWheelDemo
                                     Value = "Circle"
                                 },
                         }
-                }) {Center = new PointF(160, 240)};
+			}) {Center = new CGPoint(0, this.View.Bounds.GetMidY())};
 
             Add(rotatingWheel);
         }

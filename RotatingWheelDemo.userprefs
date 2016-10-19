@@ -1,0 +1,16 @@
+﻿<Properties StartupConfiguration="{54A77E7A-8ED3-4B77-9D17-BB3DDAA3F98C}|Default">
+  <MonoDevelop.Ide.ItemProperties.RotatingWheelDemo PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.0315F5B3-7197-4C9F-91F2-FA658D180056" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="RotatingWheelDemo/RotatingWheelView.cs">
+    <Files>
+      <File FileName="../../../../../Library/Frameworks/Xamarin.iOS.framework/Versions/10.0.1.10/lib/mono/2.1/Xamarin.iOS.Common.targets" Line="1" Column="1" />
+      <File FileName="RotatingWheelDemo/RotatingWheelView.cs" Line="36" Column="62" />
+      <File FileName="RotatingWheelDemo/MyViewController.cs" Line="17" Column="30" />
+      <File FileName="RotatingWheelDemo/RotatingWheelSettings.cs" Line="8" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

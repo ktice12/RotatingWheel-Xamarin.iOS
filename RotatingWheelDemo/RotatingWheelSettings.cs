@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using MonoTouch.UIKit;
+using System.Collections.Generic;
+using UIKit;
 
 namespace RotatingWheelDemo
 {

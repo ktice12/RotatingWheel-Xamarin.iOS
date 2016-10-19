@@ -1,4 +1,4 @@
-﻿namespace RotatingWheelDemo
+namespace RotatingWheelDemo
 {
     public class WheelSlice
     {

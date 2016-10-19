@@ -1,16 +1,15 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Drawing;
-using MonoTouch.CoreGraphics;
-using MonoTouch.UIKit;
+using CoreGraphics;
+using UIKit;
 
 namespace RotatingWheelDemo
 {
     public class RotatingWheelView : UIView
     {
         private float _deltaAngle;
-        private const float _minAlphaValue = 0.6f;
-        private const float _maxAlphaValue = 1.0f;
+        private const float _minAlphaValue = 2.6f;
+        private const float _maxAlphaValue = 3.0f;
         private static CGAffineTransform _startTransform;
         private int _currentSliceValue;
 
@@ -18,7 +17,7 @@ namespace RotatingWheelDemo
         private UIView _container;
         private List<WheelSlice> _slices;
 
-        public RotatingWheelView(RectangleF frame, RotatingWheelSettings settings)
+        public RotatingWheelView(CGRect frame, RotatingWheelSettings settings)
             : base(frame)
         {
             _settings = settings;
@@ -32,14 +31,16 @@ namespace RotatingWheelDemo
             _slices = new List<WheelSlice>(sectionNumber);
 
             var angleSize = (float)(2 * Math.PI / sectionNumber);
+			System.Diagnostics.Debug.WriteLine(angleSize);
             for (int i = 0; i < sectionNumber; i++)
             {
                 var imageView = new UIImageView(_settings.SegmentImage);
-                imageView.Layer.AnchorPoint = new PointF(1.0f, 0.5f);
+                imageView.Layer.AnchorPoint = new CGPoint(2.0f, 0.5f);
                 var slicePosX = (float)(_container.Bounds.Size.Width / (2.0 - _container.Frame.X));
                 var slicePosY = (float)(_container.Bounds.Size.Height / 2.0 - _container.Frame.Y);
-                imageView.Layer.Position = new PointF(slicePosX, slicePosY);
+                imageView.Layer.Position = new CGPoint(slicePosX, slicePosY);
                 imageView.Transform = CGAffineTransform.MakeRotation(angleSize * i);
+				System.Diagnostics.Debug.WriteLine(imageView.Transform);
                 imageView.Alpha = _minAlphaValue;
                 imageView.Tag = i;
 
@@ -47,26 +48,11 @@ namespace RotatingWheelDemo
                 {
                     imageView.Alpha = _maxAlphaValue;
                 }
-                var sliceImageView = new UIImageView(new RectangleF(12, 15, 40, 40));
-                var sliceImage = _settings.Slices[i].Image;
-                sliceImageView.Image = sliceImage;
-                imageView.Add(sliceImageView);
                 _container.Add(imageView);
             }
 
-            _container.UserInteractionEnabled = false;
+            //_container.UserInteractionEnabled = false;
             Add(_container);
-
-            var backgroundView = new UIImageView(Frame) { Image = _settings.BackgroundImage };
-            Add(backgroundView);
-
-            var mask = new UIImageView(new RectangleF(0, 0, 58, 58))
-                {
-                    Image = _settings.CenterButtonImage,
-                    Center = Center
-                };
-            mask.Center = new PointF(mask.Center.X, mask.Center.Y + 3);
-            Add(mask);
 
             if (sectionNumber % 2 == 0)
             {
@@ -129,19 +115,21 @@ namespace RotatingWheelDemo
             }
         }
 
-        public event EventHandler<SliceDidChangedEventArgs> SliceDidChanged;
-        public class SliceDidChangedEventArgs : EventArgs
-        {
-            public string Value { get; set; }
-        }
 
 
-        public override void TouchesBegan(MonoTouch.Foundation.NSSet touches, UIEvent evt)
+        public override void TouchesBegan(Foundation.NSSet touches, UIEvent evt)
         {
+			Console.WriteLine("touch");
             var touch = (UITouch)touches.AnyObject;
             var point = touch.LocationInView(this);
             var distance = CalculateDistanceFromCenter(point);
-            if (distance < 40 || distance > 100)
+			System.Diagnostics.Debug.WriteLine(point);
+			System.Diagnostics.Debug.WriteLine(distance);
+			Console.WriteLine("console");
+			Console.WriteLine(point);
+			Console.WriteLine(distance);
+
+			if (distance < 20 || distance > 200)
             {
                 return;
             }
@@ -155,7 +143,7 @@ namespace RotatingWheelDemo
             _deltaAngle = (float)Math.Atan2(dx, dy);
         }
 
-        public override void TouchesMoved(MonoTouch.Foundation.NSSet touches, UIEvent evt)
+        public override void TouchesMoved(Foundation.NSSet touches, UIEvent evt)
         {
             var touch = (UITouch)touches.AnyObject;
             var point = touch.LocationInView(this);
@@ -169,7 +157,7 @@ namespace RotatingWheelDemo
             _container.Transform = CGAffineTransform.MakeRotation(-angleDiff);
         }
 
-        public override void TouchesEnded(MonoTouch.Foundation.NSSet touches, UIEvent evt)
+        public override void TouchesEnded(Foundation.NSSet touches, UIEvent evt)
         {
             var radians = (float)Math.Atan2(_container.Transform.xx, _container.Transform.yx);
             var newVal = 0.0f;
@@ -207,9 +195,9 @@ namespace RotatingWheelDemo
             label.Alpha = _maxAlphaValue;
         }
 
-        private float CalculateDistanceFromCenter(PointF point)
+        private float CalculateDistanceFromCenter(CGPoint point)
         {
-            var center = new PointF(Bounds.Size.Width / 2.0f, Bounds.Size.Height / 2.0f);
+            var center = new CGPoint(Bounds.Size.Width / 2.0f, Bounds.Size.Height / 2.0f);
             var dx = (point.X - center.X);
             var dy = (point.Y - center.Y);
             var distance = (float)Math.Sqrt(dx * dx + dy * dy);
